@@ -1,0 +1,41 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-sm" style="width: 100%; max-width: 500px;">
+        <h2 class="mb-4 text-center">Enter New Delivery Information</h2>
+        <form (ngSubmit)="onSubmit()" #dataEntryForm="ngForm" novalidate>
+            <div class="mb-3">
+                <label for="senderEmail" class="form-label">Sender Email:</label>
+                <input type="email" id="senderEmail" [(ngModel)]="senderEmail" name="senderEmail" class="form-control"
+                    required email #senderEmailInput="ngModel">
+                <div *ngIf="senderEmailInput.invalid && senderEmailInput.touched" class="text-danger">
+                    <small *ngIf="senderEmailInput.errors?.['required']">Sender email is required.</small>
+                    <small *ngIf="senderEmailInput.errors?.['email']">Please enter a valid email address.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="pickupLocation" class="form-label">Pickup Location:</label>
+                <input type="text" id="pickupLocation" [(ngModel)]="pickupLocation" name="pickupLocation"
+                    class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="deliveryLocation" class="form-label">Delivery Location:</label>
+                <input type="text" id="deliveryLocation" [(ngModel)]="deliveryLocation" name="deliveryLocation"
+                    class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="receiverEmail" class="form-label">Receiver Email:</label>
+                <input type="email" id="receiverEmail" [(ngModel)]="receiverEmail" name="receiverEmail"
+                    class="form-control" required email #receiverEmailInput="ngModel">
+                <div *ngIf="receiverEmailInput.invalid && receiverEmailInput.touched" class="text-danger">
+                    <small *ngIf="receiverEmailInput.errors?.['required']">Receiver email is required.</small>
+                    <small *ngIf="receiverEmailInput.errors?.['email']">Please enter a valid email address.</small>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 mb-3" [disabled]="dataEntryForm.invalid">Submit</button>
+            <button type="button" class="btn btn-secondary w-100" (click)="onLogout()">Logout</button>
+        </form>
+    </div>
+</div>

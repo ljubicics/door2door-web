@@ -1,0 +1,45 @@
+import { Component } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-data-entry',
+  templateUrl: './data-entry.component.html',
+  styleUrls: ['./data-entry.component.css']
+})
+export class DataEntryComponent {
+  senderEmail: string = '';
+  pickupLocation: string = '';
+  deliveryLocation: string = '';
+  receiverEmail: string = '';
+
+  constructor(private http: HttpClient, private router: Router) { }
+
+  onSubmit() {
+    const deliveryData = {
+      senderEmail: this.senderEmail,
+      pickupLocation: this.pickupLocation,
+      deliveryLocation: this.deliveryLocation,
+      receiverEmail: this.receiverEmail
+    };
+
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.post('http://localhost:8080/api/v1/deliveries/start', deliveryData, { headers })
+      .subscribe(response => {
+        console.log('Delivery started successfully:', response);
+        alert('Delivery started successfully!');
+      }, error => {
+        console.error('Error starting delivery:', error);
+        alert('Failed to start delivery. Please check the entered information.');
+      });
+  }
+
+  onLogout() {
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/login']);
+  }
+}
