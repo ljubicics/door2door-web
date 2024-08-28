@@ -20,7 +20,7 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # 8. Korak: Kopiraj izgrađene datoteke iz prethodnog stepa u Nginx-ov direktorijum za posluživanje
-COPY --from=build /app/dist/ime-aplikacije /usr/share/nginx/html
+COPY --from=build /app/dist/door2door-web /usr/share/nginx/html
 
 # 9. Korak: Expose port 80
 EXPOSE 80
