@@ -28,7 +28,7 @@ export class DataEntryComponent {
       'Authorization': `Bearer ${token}`
     });
 
-    this.http.post('http://localhost:8080/api/v1/deliveries/start', deliveryData, { headers })
+    this.http.post('http://188.245.93.77:8080/api/v1/deliveries/start', deliveryData, { headers })
       .subscribe(response => {
         console.log('Delivery started successfully:', response);
         alert('Delivery started successfully!');
