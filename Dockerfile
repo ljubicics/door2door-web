@@ -22,5 +22,5 @@ RUN npm install -g http-server
 # Definiši komandu za pokretanje aplikacije koristeći 'http-server'
 CMD ["http-server", "dist/door2door-web", "-p", "8080", "-a", "0.0.0.0"]
 
-# Expose port 8080 za pristup izvana
-EXPOSE 8080
+# Expose port 8070 za pristup izvana
+EXPOSE 8070
