@@ -1,26 +1,29 @@
-# Koristimo Node.js sliku kao osnovu
-FROM node:18
+# 1. Korak: Koristi Node.js sliku kao osnovu za build korak
+FROM node:18 AS build
 
-# Postavi radni direktorijum unutar kontejnera
+# 2. Korak: Postavi radni direktorijum unutar kontejnera
 WORKDIR /app
 
-# Kopiraj package.json i package-lock.json u kontejner
+# 3. Korak: Kopiraj package.json i package-lock.json u kontejner
 COPY package*.json ./
 
-# Instaliraj dependencies
+# 4. Korak: Instaliraj dependencies
 RUN npm install
 
-# Kopiraj ceo Angular projekat u kontejner
+# 5. Korak: Kopiraj ceo Angular projekat u kontejner
 COPY . .
 
-# Izgradi Angular aplikaciju za produkciju
+# 6. Korak: Izgradi Angular aplikaciju za produkciju
 RUN npm run build --prod
 
-# Instaliraj 'http-server' za posluživanje statičkih fajlova
-RUN npm install -g http-server
+# 7. Korak: Koristi Nginx sliku kao osnovu za posluživanje aplikacije
+FROM nginx:alpine
 
-# Definiši komandu za pokretanje aplikacije koristeći 'http-server'
-CMD ["http-server", "dist/door2door-web", "-p", "8080", "-a", "0.0.0.0"]
+# 8. Korak: Kopiraj izgrađene datoteke iz prethodnog stepa u Nginx-ov direktorijum za posluživanje
+COPY --from=build /app/dist/door2door-web /usr/share/nginx/html
 
-# Expose port 8070 za pristup izvana
-EXPOSE 8070
+# 9. Korak: Expose port 80
+EXPOSE 80
+
+# 10. Korak: Startuj Nginx
+CMD ["nginx", "-g", "daemon off;"]
