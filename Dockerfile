@@ -19,11 +19,14 @@ RUN npm run build --prod
 # 7. Korak: Koristi Nginx sliku kao osnovu za posluživanje aplikacije
 FROM nginx:alpine
 
-# 8. Korak: Kopiraj izgrađene datoteke iz prethodnog stepa u Nginx-ov direktorijum za posluživanje
+# 8. Korak: Kopiraj prilagođeni nginx.conf u kontejner
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# 9. Korak: Kopiraj izgrađene datoteke iz prethodnog stepa u Nginx-ov direktorijum za posluživanje
 COPY --from=build /app/dist/door2door-web /usr/share/nginx/html
 
-# 9. Korak: Expose port 80
+# 10. Korak: Expose port 80
 EXPOSE 80
 
-# 10. Korak: Startuj Nginx
+# 11. Korak: Startuj Nginx
 CMD ["nginx", "-g", "daemon off;"]
