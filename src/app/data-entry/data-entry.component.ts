@@ -32,18 +32,10 @@ export class DataEntryComponent {
       .subscribe(response => {
         console.log('Delivery started successfully:', response);
         alert('Delivery started successfully!');
-        this.clearForm();
       }, error => {
         console.error('Error starting delivery:', error);
         alert('Failed to start delivery. Please check the entered information.');
       });
-  }
-
-  clearForm() {
-    this.senderEmail = '';
-    this.pickupLocation = '';
-    this.deliveryLocation = '';
-    this.receiverEmail = '';
   }
 
   onLogout() {
